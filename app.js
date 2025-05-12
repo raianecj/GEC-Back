@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const rotaUsuarios = require('./routes/usuarios');
 const rotaAdmin = require('./routes/usuariosAdmin');
+const rotaEventos = require('./routes/eventos')
 const cors = require('cors');
 
 // Habilita o CORS para todas as origens
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/usuarios', rotaUsuarios);
 app.use('/admin', rotaAdmin);
+app.use('/eventos', rotaEventos);
 
 // Porta
 const PORTA = process.env.PORT || 3000;
