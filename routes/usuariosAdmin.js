@@ -14,4 +14,10 @@ router.post('/registrar-admin', UsuarioAdminController.registrarAdmin);
 const { verificarTokenAdmin } = require('../middlewares/auth');
 router.get('/perfil-admin', verificarTokenAdmin, UsuarioAdminController.perfilAdmin);
 
+// Rota de edição de perfil
+router.put('/editar-perfil-admin', verificarTokenAdmin, UsuarioAdminController.editarPerfilAdmin)
+
+// Rota de exclusão de conta
+router.delete('/excluir-perfil-admin', verificarTokenAdmin, UsuarioAdminController.excluirPerfilAdmin)
+
 module.exports = router;

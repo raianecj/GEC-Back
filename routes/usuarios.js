@@ -12,4 +12,10 @@ router.post('/login', UsuarioController.login);
 const { verificarToken } = require('../middlewares/auth');
 router.get('/perfil', verificarToken, UsuarioController.perfil);
 
+// Rota de edição de perfil
+router.put('/editar-perfil', verificarToken, UsuarioController.editarPerfil);
+
+// Rota de exclusão de conta
+router.delete('/excluir-perfil', verificarToken, UsuarioController.excluirPerfil);
+
 module.exports = router;
