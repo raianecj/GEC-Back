@@ -13,6 +13,10 @@ app.use(express.json());
 
 app.use(express.json());
 
+app.use('/uploads', express.static('uploads'));
+
+
+
 // Rotas da API
 
 app.use('/usuarios', rotaUsuarios);

@@ -95,6 +95,7 @@ const perfilAdmin = async (req, res) => {
     if (!usuario) return res.status(404).json({ mensagem: 'Usuário não encontrado' });
 
     return res.json({
+      id:usuario.id,
       nomeCompleto: usuario.nomeCompleto,
       email: usuario.email,
     });

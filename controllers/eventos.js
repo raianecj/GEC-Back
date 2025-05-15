@@ -1,40 +1,45 @@
 // controllers/eventos.js
+const path = require('path');
 const { Eventos } = require('../models');
 
 // Criar novo evento
 const criarEvento = async (req, res) => {
   try {
-    console.log(req.body)
-    const { nome, descricao, dataEvento, horaEvento, inicioInscricoes, fimInscricoes, local, maxParticipantes, categorias, kits, bannerPrincipal, bannerMiniatura, status, organizadorId } = req.body;
+    const {
+      nome, descricao, dataEvento, horaEvento,
+      inicioInscricoes, fimInscricoes, local,
+      maxParticipantes, categorias, kits,
+      status, organizadorId
+    } = req.body;
 
-    // Logando individualmente cada campo para ver se algum está errado
-    console.log("nome:", nome);
-    console.log("descricao:", descricao);
-    console.log("dataEvento:", dataEvento);
-    console.log("horaEvento:", horaEvento);
-    console.log("inicioInscricoes:", inicioInscricoes);
-    console.log("fimInscricoes:", fimInscricoes);
-    console.log("local:", local);
-    console.log("maxParticipantes:", maxParticipantes);
-    console.log("categorias:", categorias);
-    console.log("kits:", kits);
-    console.log("bannerPrincipal:", bannerPrincipal);
-    console.log("bannerMiniatura:", bannerMiniatura);
-    console.log("status:", status);
-    console.log("organizadorId:", organizadorId);
+    const bannerPrincipal = req.files?.bannerPrincipal?.[0]?.path;
+    const bannerMiniatura = req.files?.bannerMiniatura?.[0]?.path;
 
-    // Verificando os campos obrigatórios
-    if (!nome || !descricao || !dataEvento || !horaEvento || !inicioInscricoes || !fimInscricoes || !local || !maxParticipantes || !categorias || !kits || !bannerPrincipal || !bannerMiniatura || !status || !organizadorId) {
+    if (!nome || !descricao || !dataEvento || !horaEvento || !inicioInscricoes ||
+        !fimInscricoes || !local || !maxParticipantes || !categorias ||
+        !kits || !bannerPrincipal || !bannerMiniatura || !status || !organizadorId) {
       return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
     }
+    const kitsValue = typeof kits === 'string' ? JSON.parse(kits) : kits;
 
-    const evento = await Eventos.create({ nome, descricao, dataEvento, horaEvento, inicioInscricoes, fimInscricoes, local, maxParticipantes, categorias, kits, bannerPrincipal, bannerMiniatura, status, organizadorId });
+    const evento = await Eventos.create({
+  nome, descricao, dataEvento, horaEvento,
+  inicioInscricoes, fimInscricoes, local,
+  maxParticipantes,
+  categorias: categorias.split(','),
+  kits: kitsValue, 
+  bannerPrincipal, bannerMiniatura,
+  status, organizadorId
+});
+
+
     return res.status(201).json(evento);
   } catch (erro) {
-    console.error(erro); // Logando o erro para ver mais detalhes
+    console.error(erro);
     return res.status(500).json({ mensagem: 'Erro ao criar evento', erro: erro.message });
   }
 };
+
 
 // Listar todos os eventos
 const listarEventos = async (req, res) => {

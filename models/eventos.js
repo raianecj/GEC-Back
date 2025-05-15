@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       local: DataTypes.STRING,
       maxParticipantes: DataTypes.INTEGER,
       categorias: DataTypes.ARRAY(DataTypes.STRING),
-      kits: DataTypes.JSONB,
+        kits: DataTypes.JSONB,
       bannerPrincipal: DataTypes.STRING,
       bannerMiniatura: DataTypes.STRING,
       descricao: DataTypes.TEXT,
