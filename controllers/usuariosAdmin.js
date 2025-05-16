@@ -1,3 +1,4 @@
+//scontrollers/usuariosAdmin.js
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { UsuariosAdmin } = require('../models');
@@ -36,7 +37,15 @@ const loginAdmin = async (req, res) => {
       { expiresIn: '2h' }
     );
 
-    return res.status(200).json({ token });
+    return res.status(200).json({
+  token,
+  admin: {
+    id: admin.id,
+    nomeCompleto: admin.nomeCompleto,
+    email: admin.email
+  }
+});
+
 
   } catch (erro) {
     return res.status(500).json({ mensagem: 'Erro ao fazer login', erro: erro.message });

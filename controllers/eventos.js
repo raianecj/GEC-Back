@@ -71,21 +71,78 @@ const obterEvento = async (req, res) => {
 const atualizarEvento = async (req, res) => {
   try {
     const { id } = req.params;
-    const [quantidadeAtualizada] = await Eventos.update(req.body, { where: { id } });
 
-    if (quantidadeAtualizada === 0) {
+    // 1. Busca o evento existente
+    const eventoExistente = await Eventos.findByPk(id);
+    if (!eventoExistente) {
       return res.status(404).json({ mensagem: 'Evento não encontrado para atualização' });
     }
 
-    const eventoAtualizado = await Eventos.findByPk(id);
+    // 2. Extrai possíveis campos de texto
+    let {
+      nome,
+      descricao,
+      dataEvento,
+      horaEvento,
+      inicioInscricoes,
+      fimInscricoes,
+      local,
+      maxParticipantes,
+      categorias,
+      kits,
+      status,
+      organizadorId
+    } = req.body;
+
+    // 3. Processa arquivos, se enviados
+    const bannerPrincipal = req.files?.bannerPrincipal?.[0]?.path;
+    const bannerMiniatura = req.files?.bannerMiniatura?.[0]?.path;
+
+    // 4. Monta objeto com apenas os campos que vieram
+    const dadosParaAtualizar = {};
+
+    if (nome !== undefined) dadosParaAtualizar.nome = nome;
+    if (descricao !== undefined) dadosParaAtualizar.descricao = descricao;
+    if (dataEvento !== undefined) dadosParaAtualizar.dataEvento = dataEvento;
+    if (horaEvento !== undefined) dadosParaAtualizar.horaEvento = horaEvento;
+    if (inicioInscricoes !== undefined) dadosParaAtualizar.inicioInscricoes = inicioInscricoes;
+    if (fimInscricoes !== undefined) dadosParaAtualizar.fimInscricoes = fimInscricoes;
+    if (local !== undefined) dadosParaAtualizar.local = local;
+    if (maxParticipantes !== undefined) dadosParaAtualizar.maxParticipantes = maxParticipantes;
+    if (status !== undefined) dadosParaAtualizar.status = status;
+    if (organizadorId !== undefined) dadosParaAtualizar.organizadorId = organizadorId;
+
+    // 5. Se vier categoria, converte de string para array se necessário
+    if (categorias !== undefined) {
+      let categoriasArr = categorias;
+      if (typeof categorias === 'string') {
+        categoriasArr = categorias.split(',').map(s => s.trim());
+      }
+      dadosParaAtualizar.categorias = categoriasArr;
+    }
+
+    // 6. Se vier kits, converte de JSON string para array se necessário
+    if (kits !== undefined) {
+      dadosParaAtualizar.kits = typeof kits === 'string' ? JSON.parse(kits) : kits;
+    }
+
+    // 7. Se vierem novos arquivos, sobrescreve
+    if (bannerPrincipal) dadosParaAtualizar.bannerPrincipal = bannerPrincipal;
+    if (bannerMiniatura) dadosParaAtualizar.bannerMiniatura = bannerMiniatura;
+
+    // 8. Executa a atualização parcial
+    await eventoExistente.update(dadosParaAtualizar);
+
     return res.status(200).json({
       mensagem: 'Evento atualizado com sucesso',
-      evento: eventoAtualizado,
+      evento: eventoExistente,
     });
   } catch (erro) {
+    console.error(erro);
     return res.status(500).json({ mensagem: 'Erro ao atualizar evento', erro: erro.message });
   }
 };
+
 
 // Excluir evento
 const excluirEvento = async (req, res) => {

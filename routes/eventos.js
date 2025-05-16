@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 
 // Rota para criar novo evento com upload de arquivos
 router.post(
-  '/eventos',
+  '/',
   upload.fields([
     { name: 'bannerPrincipal', maxCount: 1 },
     { name: 'bannerMiniatura', maxCount: 1 }
@@ -29,15 +29,22 @@ router.post(
 );
 
 // Listar todos os eventos 
-router.get('/eventos', EventoController.listarEventos);
+router.get('/', EventoController.listarEventos);
 
 // Buscar evento por ID 
-router.get('/eventos/:id', EventoController.obterEvento);
+router.get('/:id', EventoController.obterEvento);
 
 // Atualizar evento 
-router.put('/eventos/:id', EventoController.atualizarEvento);
+router.put(
+   '/:id',
+   upload.fields([
+     { name: 'bannerPrincipal', maxCount: 1 },
+     { name: 'bannerMiniatura', maxCount: 1 }
+   ]),
+   EventoController.atualizarEvento
+ );
 
 // Excluir evento 
-router.delete('/eventos/:id', EventoController.excluirEvento);
+router.delete('/:id', EventoController.excluirEvento);
 
 module.exports = router;

@@ -1,3 +1,4 @@
+//MODULO DE EVENTOS models/eventos.js
 'use strict';
 const { Model } = require('sequelize');
 
