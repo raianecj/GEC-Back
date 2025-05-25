@@ -10,3 +10,7 @@ Port: pressione Enter (default é 5432)
 Username: seu usuário do PostgreSQL (ex: postgres)
 
 Password: a senha do PostgreSQL
+
+Criar migração: npx sequelize-cli migration:generate --name create-inscricoes
+
+Rodar migração: npx sequelize-cli db:migrate
