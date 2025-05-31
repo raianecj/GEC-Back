@@ -14,3 +14,10 @@ Password: a senha do PostgreSQL
 Criar migração: npx sequelize-cli migration:generate --name create-pagamento
 
 Rodar migração: npx sequelize-cli db:migrate
+
+API MERCADO PAGO
+Contas de teste
+Vendedor: TESTUSER667937982 senha: EZwXehDNuF
+Comprador: TESTUSER704737564 senha: vPABMyf0kt
+
+O token access utilizado é o do prd da conta do vendedor
