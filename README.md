@@ -11,6 +11,6 @@ Username: seu usuário do PostgreSQL (ex: postgres)
 
 Password: a senha do PostgreSQL
 
-Criar migração: npx sequelize-cli migration:generate --name create-inscricoes
+Criar migração: npx sequelize-cli migration:generate --name create-pagamento
 
 Rodar migração: npx sequelize-cli db:migrate
