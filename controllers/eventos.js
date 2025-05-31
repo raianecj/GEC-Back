@@ -1,6 +1,7 @@
 // controllers/eventos.js
 const path = require('path');
-const { Eventos } = require('../models');
+const { Eventos, Inscricao, Pagamento } = require('../models');
+
 
 // Criar novo evento
 const criarEvento = async (req, res) => {
@@ -160,4 +161,52 @@ const excluirEvento = async (req, res) => {
   }
 };
 
-module.exports = { criarEvento, listarEventos, obterEvento, atualizarEvento, excluirEvento };
+// Obter resumo do evento
+const obterResumoEvento = async (req, res) => {
+  try {
+    const { id: idEvento } = req.params; 
+
+    const inscricoes = await Inscricao.findAll({
+      where: { eventoId: idEvento },
+      include: [
+        {
+          model: Pagamento,
+          as: 'pagamento' 
+        }
+      ]
+    });
+
+    const totalInscritos = inscricoes.length;
+    let totalPagos = 0;
+    let totalPendentes = 0;
+    let valorArrecadado = 0;
+    let valorPendente = 0;
+
+    inscricoes.forEach(inscricao => {
+      const pagamento = inscricao.pagamento; 
+
+      if (pagamento?.status === 'pago') {
+        totalPagos++;
+        valorArrecadado += parseFloat(pagamento.valor || 0);
+      } else {
+        totalPendentes++;
+        valorPendente += parseFloat(pagamento?.valor || 0);
+      }
+    });
+
+    return res.status(200).json({
+      totalInscritos,
+      totalPagos,
+      totalPendentes,
+      valorArrecadado,
+      valorPendente,
+    });
+
+  } catch (erro) {
+    console.error(erro);
+    return res.status(500).json({ mensagem: 'Erro ao obter resumo do evento', erro: erro.message });
+  }
+};
+
+
+module.exports = { criarEvento, listarEventos, obterEvento, atualizarEvento, excluirEvento, obterResumoEvento };

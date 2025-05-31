@@ -47,4 +47,8 @@ router.put(
 // Excluir evento 
 router.delete('/:id', EventoController.excluirEvento);
 
+// Obtém resumo dos eventos
+router.get('/:id/resumo', EventoController.obterResumoEvento);
+
+
 module.exports = router;

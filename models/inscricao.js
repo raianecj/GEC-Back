@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Inscricao.belongsTo(models.Eventos, { foreignKey: 'eventoId' });
       Inscricao.belongsTo(models.Usuario, { foreignKey: 'usuarioId' });
+      Inscricao.hasOne(models.Pagamento, { foreignKey: 'inscricaoId', as: 'pagamento' });
     }
   }
   Inscricao.init(

@@ -108,7 +108,23 @@ const webhookPagamento = async (req, res) => {
   }
 };
 
-module.exports = {
-  criarPreferenciaPagamento,
-  webhookPagamento
+const listarPagamentos = async (req, res) => {
+  try {
+    const pagamentos = await Pagamento.findAll({
+      include: {
+        model: Inscricao,
+        as: 'inscricao', // <-- esse alias precisa ser o mesmo definido na associação
+        attributes: ['eventoId', 'usuarioId']
+      }
+    });
+
+    return res.status(200).json(pagamentos);
+  } catch (erro) {
+    console.error('Erro ao listar pagamentos:', erro);
+    return res.status(500).json({ mensagem: 'Erro ao buscar pagamentos' });
+  }
 };
+
+
+
+module.exports = { criarPreferenciaPagamento,webhookPagamento, listarPagamentos };
