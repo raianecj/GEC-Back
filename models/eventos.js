@@ -1,4 +1,4 @@
-//MODULO DE EVENTOS models/eventos.js
+//MODELO DE EVENTOS models/eventos.js
 'use strict';
 const { Model } = require('sequelize');
 
@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       bannerPrincipal: DataTypes.STRING,
       bannerMiniatura: DataTypes.STRING,
       descricao: DataTypes.TEXT,
-      status: DataTypes.ENUM('Concluído', 'Em Andamento', 'Cancelado', 'Inativo'),
+      status: DataTypes.ENUM('Concluído', 'Em Andamento', 'Cancelado', 'Inativo', 'Esgotado', 'Em Breve'),
+
     },
     {
       sequelize,

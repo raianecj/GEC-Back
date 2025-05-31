@@ -4,6 +4,7 @@ const app = express();
 const rotaUsuarios = require('./routes/usuarios');
 const rotaAdmin = require('./routes/usuariosAdmin');
 const rotaEventos = require('./routes/eventos')
+const rotaInscricoes = require('./routes/inscricoes');
 const cors = require('cors');
 
 // Habilita o CORS para todas as origens
@@ -22,6 +23,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/usuarios', rotaUsuarios);
 app.use('/admin', rotaAdmin);
 app.use('/eventos', rotaEventos);
+app.use('/inscricoes', rotaInscricoes);
 
 // Porta
 const PORTA = process.env.PORT || 3000;
