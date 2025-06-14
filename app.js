@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const app = express();
 const rotaUsuarios = require('./routes/usuarios');
@@ -30,4 +29,4 @@ app.use('/pagamento', rotaPagamento);
 
 // Porta
 const PORTA = process.env.PORT || 3000;
-app.listen(PORTA, () => console.log(`Servidor rodando na porta http://localhost:${PORTA}`));
+app.listen(PORTA, () => console.log(`Servidor rodando na porta http://192.168.1.7:${PORTA}`));

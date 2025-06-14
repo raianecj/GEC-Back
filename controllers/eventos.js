@@ -1,9 +1,7 @@
-// controllers/eventos.js
 const path = require('path');
 const { Eventos, Inscricao, Pagamento } = require('../models');
 
 
-// Criar novo evento
 const criarEvento = async (req, res) => {
   try {
     const {
@@ -42,7 +40,6 @@ const criarEvento = async (req, res) => {
 };
 
 
-// Listar todos os eventos
 const listarEventos = async (req, res) => {
   try {
     const eventos = await Eventos.findAll();
@@ -68,18 +65,18 @@ const obterEvento = async (req, res) => {
   }
 };
 
-// Atualizar evento
+
 const atualizarEvento = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // 1. Busca o evento existente
+    //  Busca o evento existente
     const eventoExistente = await Eventos.findByPk(id);
     if (!eventoExistente) {
       return res.status(404).json({ mensagem: 'Evento não encontrado para atualização' });
     }
 
-    // 2. Extrai possíveis campos de texto
+
     let {
       nome,
       descricao,
@@ -95,11 +92,11 @@ const atualizarEvento = async (req, res) => {
       organizadorId
     } = req.body;
 
-    // 3. Processa arquivos, se enviados
+    //  Processa arquivos, se enviados
     const bannerPrincipal = req.files?.bannerPrincipal?.[0]?.path;
     const bannerMiniatura = req.files?.bannerMiniatura?.[0]?.path;
 
-    // 4. Monta objeto com apenas os campos que vieram
+    //  Monta objeto com apenas os campos que vieram
     const dadosParaAtualizar = {};
 
     if (nome !== undefined) dadosParaAtualizar.nome = nome;
@@ -113,7 +110,7 @@ const atualizarEvento = async (req, res) => {
     if (status !== undefined) dadosParaAtualizar.status = status;
     if (organizadorId !== undefined) dadosParaAtualizar.organizadorId = organizadorId;
 
-    // 5. Se vier categoria, converte de string para array se necessário
+    //  Se vier categoria, converte de string para array se necessário
     if (categorias !== undefined) {
       let categoriasArr = categorias;
       if (typeof categorias === 'string') {
@@ -122,16 +119,16 @@ const atualizarEvento = async (req, res) => {
       dadosParaAtualizar.categorias = categoriasArr;
     }
 
-    // 6. Se vier kits, converte de JSON string para array se necessário
+    //  Se vier kits, converte de JSON string para array se necessário
     if (kits !== undefined) {
       dadosParaAtualizar.kits = typeof kits === 'string' ? JSON.parse(kits) : kits;
     }
 
-    // 7. Se vierem novos arquivos, sobrescreve
+    //  Se vierem novos arquivos, sobrescreve
     if (bannerPrincipal) dadosParaAtualizar.bannerPrincipal = bannerPrincipal;
     if (bannerMiniatura) dadosParaAtualizar.bannerMiniatura = bannerMiniatura;
 
-    // 8. Executa a atualização parcial
+    //  Executa a atualização parcial
     await eventoExistente.update(dadosParaAtualizar);
 
     return res.status(200).json({
@@ -145,7 +142,6 @@ const atualizarEvento = async (req, res) => {
 };
 
 
-// Excluir evento
 const excluirEvento = async (req, res) => {
   try {
     const { id } = req.params;
@@ -161,7 +157,6 @@ const excluirEvento = async (req, res) => {
   }
 };
 
-// Obter resumo do evento
 const obterResumoEvento = async (req, res) => {
   try {
     const { id: idEvento } = req.params; 

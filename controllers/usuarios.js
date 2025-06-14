@@ -88,7 +88,7 @@ const perfil = async (req, res) => {
   }
 };
 
-// Editar perfil do usuário autenticado
+
 const editarPerfil = async (req, res) => {
   const {
     nomeCompleto,

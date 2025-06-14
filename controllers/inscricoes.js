@@ -41,7 +41,6 @@ const inscreverUsuario = async (req, res) => {
   }
 };
 
-// ===== Nova função: listar todas as inscrições do usuário =====
 const listarInscricoes = async (req, res) => {
   try {
     const usuarioId = req.usuario.id;
@@ -82,7 +81,6 @@ const listarInscricoes = async (req, res) => {
 };
 
 
-// ===== Nova função: ver detalhes de uma inscrição específica =====
 const verInscricao = async (req, res) => {
   try {
     const usuarioId = req.usuario.id;
@@ -113,8 +111,8 @@ const verInscricao = async (req, res) => {
       dataEvento: dataEvento.toLocaleDateString('pt-BR'),
       horarioEvento: inscricao.Evento.horaEvento?.slice(0, 5),
       status: inscricao.status,
-      valor: inscricao.valor ? inscricao.valor.toFixed(2).replace('.', ',') : '89,90', // mock
-      formaPagamento: inscricao.formaPagamento || 'Pix' // mock
+      valor: inscricao.valor ? inscricao.valor.toFixed(2).replace('.', ',') : '89,90', 
+      formaPagamento: inscricao.formaPagamento || 'Pix' 
     };
 
     return res.json(inscricaoFormatada);

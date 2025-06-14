@@ -2,7 +2,7 @@ const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 const { Inscricao } = require('../models');
 const { Pagamento } = require('../models');
 
-// Inicialize o SDK com a nova forma de configuração
+
 const mercadopago = new MercadoPagoConfig({
   accessToken: 'APP_USR-8305709700848957-053108-d493354865938c5d0af68ffce00ba0ef-2471461120'
 });
@@ -25,7 +25,7 @@ const criarPreferenciaPagamento = async (req, res) => {
             title: `Inscrição Evento #${inscricao.eventoId}`,
             quantity: 1,
             currency_id: 'BRL',
-            unit_price: 89.90 // valor fixo por enquanto
+            unit_price: 89.90 
           }
         ],
         back_urls: {
